@@ -1,5 +1,5 @@
-# SentenceMixer
-SentenceMixer is a simple TTS engine which was made so voices are easy to create. It uses the same techniques as sentence-mixing in Youtube Poops. Work in progress.
+# re.etiand.SentenceMixer
+re.etiand.SentenceMixer is a simple TTS engine which was made so voices are easy to create. It uses the same techniques as sentence-mixing in Youtube Poops. Work in progress.
 A sample french voice ("boule", from famous french ytp source la boule magique) is provided.
 
 It expects espeak (for word-to-phoneme translation) and sox (for audio output) to be installed.
