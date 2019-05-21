@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -22,5 +25,13 @@ public class MarkerList extends ArrayList<Marker> {
         for (Marker m : this)
             s.append(m.phoneme);
         return s.toString();
+    }
+    public void writeToFile(String filename) throws IOException {
+        FileWriter fileWriter = new FileWriter(filename);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        for (Marker m : this) {
+            printWriter.printf("%f\t%f\t%s\n", m.start, m.end, m.phoneme);
+        }
+        printWriter.close();
     }
 }

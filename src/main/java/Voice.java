@@ -47,59 +47,6 @@ public class Voice {
         scanner.close();
     }
 
-    /*
-        private void findAllCombinations(String str, int index, String out, ArrayList<String[]> list) {
-            if (index == str.length()) {
-                list.add(out.substring(1).split(" "));
-            }
-            for (int i = index; i < str.length(); i++) {
-                findAllCombinations(str, i + 1, out + " " + str.substring(index, i + 1), list);
-            }
-        }
-
-        public ArrayList<String[]> getAllCombinations(String query) {
-            ArrayList<String[]> combinations = new ArrayList<String[]>();
-            findAllCombinations(query, 0, "", combinations);
-            return combinations;
-        }
-
-        public MarkerList findBestCandidates(String query) {
-            ArrayList<Integer> scores = new ArrayList<>();
-
-            MarkerList bestPositions = new MarkerList();
-            int bestScore = 0;
-            for (String[] combination : getAllCombinations(query)) {
-    //            System.out.println(Arrays.toString(combination));
-                ArrayList<Integer> positions = new ArrayList<>();
-                for (String phonemeGroup : combination) {
-                    int index = phonemes.indexOf(phonemeGroup);
-                    if (index == -1)
-                        break;
-                    else
-                        positions.add(index);
-                }
-                if (positions.size() == combination.length) {
-                    // trouvéééé !
-                    int score = Arrays.stream(combination).mapToInt(String::length).min().orElseThrow(NoSuchElementException::new);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestPositions = new MarkerList();
-                        for (int i = 0; i < positions.size(); i++) {
-                            Marker m = new Marker();
-                            m.phoneme = combination[i];
-                            m.start = phonemes.get(positions.get(i)).start;
-                            m.end = phonemes.get(positions.get(i)+combination.length).end;
-                            bestPositions.add(m);
-                        }
-                    }
-                }
-            }
-            if (bestScore == 0) {
-                System.out.println("Voice incomplete !!!");
-            }
-            System.out.println("best score = " + bestScore);
-            return bestPositions;
-        }*/
     public MarkerList findBestCandidates(String phonemeQuery) {
         MarkerList r = new MarkerList();
         int startIndex = 0;
@@ -129,6 +76,9 @@ public class Voice {
 
     public void play(Marker m) throws IOException, InterruptedException {
         Runtime rt = Runtime.getRuntime();
-        rt.exec(new String[]{"play", audio.getPath(), "trim", ""+m.start, ""+(m.end-m.start)}).waitFor();
+        int ret = rt.exec(new String[]{"play", audio.getPath(), "trim", "" + m.start, "" + (m.end - m.start)}).waitFor();
+        if (ret != 0) {
+            throw new IOException("Error playing audio : ret="+ret);
+        }
     }
 }
